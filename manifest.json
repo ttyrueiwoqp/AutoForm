@@ -1,0 +1,32 @@
+{
+  "manifest_version": 2,
+  "name": "AutoForm",
+  "description": "This extension helps auto-fill forms",
+  "version": "1.0",
+  "browser_action": {
+    "default_icon": "resource/icon.png",
+    "default_popup": "html/popup.html"
+  },
+  "permissions": [
+    "activeTab",
+    "tabs",
+    "storage",
+    "http://*/*"
+  ],
+  "options_ui": {
+    "page": "html/options.html",
+    "chrome_style": true
+  },
+  "content_scripts": [
+    {
+      "js": [
+        "jquery/jquery-2.1.4.min.js",
+        "js/content.js"
+      ],
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ]
+    }
+  ]
+}

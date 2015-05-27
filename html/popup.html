@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="../semantic-ui-1.12.3/dist/semantic.min.css"/>
+    <style>
+        body {
+            min-width: 20em;
+            max-width: 20em;
+            padding: 1em;
+        }
+
+        #hiddenRow {
+            display: none;
+        }
+
+        .button[data-action="load"] {
+            min-width: 11em;
+        }
+    </style>
+</head>
+<body>
+
+<div class="ui raised segment" id="content">
+    <div class="ui teal ribbon label" id="pathname"></div>
+    <div class="ui horizontal divider">NEW</div>
+
+    <div class="ui small action input">
+        <input type="text" id="rowKeyInput" maxlength="16"/>
+
+        <div class="ui primary icon button" data-action="new">
+            <i class="save icon"></i>
+        </div>
+    </div>
+
+    <div class="ui horizontal divider">SAVED</div>
+
+    <div id="savedRows"></div>
+
+    <div class="ui row" id="hiddenRow">
+        <div class="ui small buttons">
+            <div class="ui green basic button" data-action="load"></div>
+            <div class="ui blue basic icon button" data-action="save">
+                <i class="save icon"></i>
+            </div>
+            <div class="ui red basic icon button" data-action="delete">
+                <i class="delete icon"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../jquery/jquery-2.1.4.min.js"></script>
+<script src="../semantic-ui-1.12.3/dist/semantic.min.js"></script>
+<script src="../js/popup.js"></script>
+</body>
+</html>
