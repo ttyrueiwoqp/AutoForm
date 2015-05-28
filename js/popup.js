@@ -72,28 +72,26 @@ var popup = {
     },
 
     initSavedRowsBtnEvent: function () {
-        $("#savedRows .button").click(function () {
+        $("#savedRows").find(".button").click(function () {
             var $this = $(this);
             popup.sendInput($this.data("action"), $this.data("rowKey"));
         });
     },
 
     sendInput: function (action, rowKey) {
-        //console.log(action + rowKey);
         if (!rowKey) {
             return;
         }
         chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
-            chrome.tabs.sendMessage(tabs[0].id, {action: action, rowKey: rowKey}, function (response) {
-                console.log(popup.rowKeys);
+            chrome.tabs.sendMessage(tabs[0].id, {action: action, rowKey: rowKey}, function () {
                 if (action == ACTIONS.DELETE) {
                     delete popup.rowKeys[rowKey];
                 } else {
                     popup.rowKeys[rowKey] = true;
+                    $("#rowKeyInput").val("");
                 }
                 popup.initSavedRows();
                 popup.initSavedRowsBtnEvent();
-                $("#rowKeyInput").val("");
             });
         });
     },

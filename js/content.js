@@ -13,7 +13,7 @@ var ACTIONS = {
  */
 var content = {
 
-    debug: false,
+    debug: true,
 
     tags: [
         $("input"),
@@ -22,12 +22,11 @@ var content = {
     ],
 
     save: function (pathname, rowKey) {
-        //chrome.storage.sync.clear();
-        content.savePathname(pathname, rowKey);
+        content.saveToPathname(pathname, rowKey);
         content.saveRowKey(pathname, rowKey);
     },
 
-    savePathname: function (pathname, rowKey) {
+    saveToPathname: function (pathname, rowKey) {
         chrome.storage.sync.get(pathname, function (result) {
             // result in the form of {pathname : {rowKey1:true, rowId2:true, ...}}
             var val = $.isEmptyObject(result) ? {} : result[pathname];
@@ -51,7 +50,7 @@ var content = {
             var tagName = $tag.prop("tagName");
             var tagArr = [];
             $tag.not(":hidden").each(function () {
-                tagArr.push($(this).val());
+                tagArr.push(content.getVal($(this)));
             });
             rowMap[tagName] = tagArr
         }
@@ -84,7 +83,7 @@ var content = {
             for (var tagName in map) {
                 if (map.hasOwnProperty(tagName)) {
                     $(tagName).not(":hidden").each(function (index) {
-                        $(this).val(map[tagName][index]);
+                        content.setVal($(this), map[tagName][index]);
                     });
                 }
             }
@@ -92,11 +91,11 @@ var content = {
     },
 
     delete: function (pathname, rowKey) {
-        content.deletePathname(pathname, rowKey);
+        content.deleteFromPathname(pathname, rowKey);
         content.deleteRowKey(pathname, rowKey);
     },
 
-    deletePathname: function (pathname, rowKey) {
+    deleteFromPathname: function (pathname, rowKey) {
         chrome.storage.sync.get(pathname, function (result) {
             // result in the form of {pathname : {rowKey1:true, rowId2:true, ...}}
             var val = result[pathname];
@@ -109,6 +108,19 @@ var content = {
     deleteRowKey: function (pathname, rowKey) {
         var fullRowKey = pathname + "#" + rowKey;
         chrome.storage.sync.remove(fullRowKey);
+    },
+
+    setVal: function ($el, val) {
+        content.isBoolType($el) ? $el.prop("checked", val) : $el.val(val);
+    },
+
+    getVal: function ($el) {
+        return content.isBoolType($el) ? $el.prop("checked") : $el.val();
+    },
+
+    isBoolType: function ($el) {
+        return $el.prop("tagName") == "INPUT"
+            && ($el.prop("type") == "checkbox" || $el.prop("type") == "radio");
     }
 
 };
