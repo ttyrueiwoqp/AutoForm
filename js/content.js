@@ -13,7 +13,7 @@ var ACTIONS = {
  */
 var content = {
 
-    debug: true,
+    debug: false,
 
     tags: [
         $("input"),
@@ -100,9 +100,18 @@ var content = {
             // result in the form of {pathname : {rowKey1:true, rowId2:true, ...}}
             var val = result[pathname];
             delete val[rowKey];
-            content.saveToStorage(pathname, val);
+
+            if ($.isEmptyObject(val)) {
+                content.deletePathname(pathname);
+            } else {
+                content.saveToStorage(pathname, val);
+            }
             content.printStorage(pathname);
         });
+    },
+
+    deletePathname: function(pathname) {
+        chrome.storage.sync.remove(pathname);
     },
 
     deleteRowKey: function (pathname, rowKey) {

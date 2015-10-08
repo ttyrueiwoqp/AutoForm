@@ -111,4 +111,6 @@ var popup = {
 
 };
 
-popup.init();
+$(function() {
+    popup.init();
+});
